@@ -11,7 +11,12 @@
       restrict: 'E',
       replace: true,
       scope: true,
-      controller: /* @ngInject */ function($scope, $rootScope, $location, Security, ConfigService) {
+      controller: /* @ngInject */ function($scope,
+                                           $rootScope,
+                                           $location,
+                                           _,
+                                           Security,
+                                           ConfigService) {
         $scope.adminUrl = ConfigService.serverUrl + 'admin';
         $scope.isEditor = Security.isEditor;
         $scope.logout = Security.logout;
@@ -21,6 +26,10 @@
           return Security.currentUser;
         }, function(currentUser) {
           $scope.currentUser = currentUser;
+          $scope.totalNotifications = _.reduce(currentUser.unread_notifications, function(acc, value) {
+            return acc + value;
+          });
+          $scope.hasNotifications = _.keys(currentUser.unread_notifications).length > 0;
         });
 
         $scope.status = {
