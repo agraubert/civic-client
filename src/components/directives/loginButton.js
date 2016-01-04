@@ -25,11 +25,13 @@
         $scope.$watch(function() {
           return Security.currentUser;
         }, function(currentUser) {
-          $scope.currentUser = currentUser;
-          $scope.totalNotifications = _.reduce(currentUser.unread_notifications, function(acc, value) {
-            return acc + value;
-          });
-          $scope.hasNotifications = _.keys(currentUser.unread_notifications).length > 0;
+          if(!_.isNull(currentUser)) {
+            $scope.currentUser = currentUser;
+            $scope.totalNotifications = _.reduce(currentUser.unread_notifications, function (acc, value) {
+              return acc + value;
+            });
+            $scope.hasNotifications = _.keys(currentUser.unread_notifications).length > 0;
+          }
         });
 
         $scope.status = {
