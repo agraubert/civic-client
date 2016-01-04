@@ -55,7 +55,8 @@
   }
 
 // @ngInject
-  function appRun(Security, $rootScope, $state, $analytics, $location, _) {
+  function appRun(Security, $rootScope, $state, $analytics, $window, $location, _) {
+    $window.loading_screen.finish();
     $rootScope.view = {};
 
     // ensure $state is globally addressable/injectable
