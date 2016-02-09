@@ -167,8 +167,11 @@
           value: 'vm.newEvidence.variant_origin',
           options: [
             { value: '', label: 'Please select a Variant Origin' },
-            { value: 'Somatic', label: 'Somatic'},
-            { value: 'Germline', label: 'Germline' }
+            { value: 'Somatic Mutation', label: 'Somatic Mutation'},
+            { value: 'Germline Mutation', label: 'Germline Mutation' },
+            { value: 'Germline Polymorphism', label: 'Germline Polymorphism' },
+            { value: 'Unknown', label: 'Unknown' },
+            { value: 'N/A', label: 'N/A' },
           ],
           valueProp: 'value',
           labelProp: 'label',
@@ -176,8 +179,11 @@
           data: {
             attributeDefinition: '&nbsp;',
             attributeDefinitions: {
-              Somatic: 'Variant is found only in tumor cells',
-              Germline: 'Variant is found in every cell, not restricted to tumor/diseased cells'
+              "Somatic Mutation": 'Variant is a mutation, found only in tumor cells, having arisen in a specific tissue (non-germ cell), and is not expected to be inherited or passed to offspring.',
+              "Germline Mutation": 'Variant is a mutation, found in every cell, not restricted to tumor/diseased cells, is expected to have arisen de novo in the germ cells responsible for the current generation or only very recent generations (e.g., close family members), and is not thought to exist in the population at large.',
+              "Germline Polymorphism": 'Variant is found in every cell, not restricted to tumor/diseased cells, and thought to represent common (or relatively rare) variation in the population at large.',
+              "Unknown": 'The variant origin is uncertain based on the available evidence.',
+              "N/A": 'The variant type (e.g., expression) is not compatible (or easily classified) with the CIViC concepts of variant origin.'
             }
           },
           onChange: function(value, options) {
@@ -383,7 +389,7 @@
           ],
           valueProp: 'value',
           labelProp: 'label',
-          helpText: 'A indicator of whether the evidence statement supports or refutes the clinical significance of an event. Evidence Type must be selected before this field is enabled.',
+          helpText: 'An indicator of whether the evidence statement supports or refutes the clinical significance of an event. Evidence Type must be selected before this field is enabled.',
           data: {
             attributeDefinition: '&nbsp;',
             attributeDefinitions: {
@@ -426,6 +432,7 @@
             { type: 'default', value: '', label: 'Please select a Clinical Significance' },
             { type: 'Predictive', value: 'Sensitivity', label: 'Sensitivity' },
             { type: 'Predictive', value: 'Resistance or Non-Response', label: 'Resistance or Non-Response' },
+            { type: 'Predictive', value: 'Adverse Response', label: 'Adverse Response' },
             { type: 'Prognostic', value: 'Better Outcome', label: 'Better Outcome' },
             { type: 'Prognostic', value: 'Poor Outcome', label: 'Poor Outcome' },
             { type: 'Diagnostic', value: 'Positive', label: 'Positive' },
@@ -437,18 +444,20 @@
             { type: 'default', value: '', label: 'Please select a Clinical Significance' },
             { type: 'Predictive', value: 'Sensitivity', label: 'Sensitivity' },
             { type: 'Predictive', value: 'Resistance or Non-Response', label: 'Resistance or Non-Response' },
+            { type: 'Predictive', value: 'Adverse Response', label: 'Adverse Response' },
             { type: 'Prognostic', value: 'Better Outcome', label: 'Better Outcome' },
             { type: 'Prognostic', value: 'Poor Outcome', label: 'Poor Outcome' },
             { type: 'Diagnostic', value: 'Positive', label: 'Positive' },
             { type: 'Diagnostic', value: 'Negative', label: 'Negative' },
             { type: 'N/A', value: 'N/A', label: 'N/A' }
           ],
-          helpText: 'Positive or negative association of the Variant with predictive, prognostic, or diagnostic evidence types. If the variant was not associated with a positive or negative outcome, N/A/ should be selected. Evidence Type must be selected before this field is enabled.',
+          helpText: 'Positive or negative association of the Variant with predictive, prognostic, or diagnostic evidence types. If the variant was not associated with a positive or negative outcome, N/A should be selected. Evidence Type must be selected before this field is enabled.',
           data: {
             attributeDefinition: '&nbsp;',
             attributeDefinitions: {
               'Sensitivity': 'Subject exhibits response to drug treatment',
               'Resistance or Non-Response': 'Subject exhibits a lack of response or active resistance to drug treatment',
+              'Adverse Response': 'Subject exhibits an adverse response to drug treatment',
               'Better Outcome': 'Demonstrates better than expected clinical outcome',
               'Poor Outcome': 'Demonstrates worse than expected clinical outcome',
               'Positive': 'Associated with diagnosis of disease or subtype',

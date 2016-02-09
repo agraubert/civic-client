@@ -272,6 +272,8 @@
               { value: 'Poor Outcome', label: 'Poor Outcome' },
               { value: 'Positive', label: 'Positive' },
               { value: 'Negative', label: 'Negative' },
+              { value: 'Adverse Response', label: 'Adverse Response' },
+              { value: 'N/A', label: 'N/A' }
             ]
 
           },
@@ -291,8 +293,11 @@
             disableCancelFilterButton: false,
             selectOptions: [
               { value: null, label: '--' },
-              { value: 'Somatic', label: 'Somatic'},
-              { value: 'Germline', label: 'Germline' }
+              { value: 'Somatic Mutation', label: 'Somatic Mutation'},
+              { value: 'Germline Mutation', label: 'Germline Mutation' },
+              { value: 'Germline Polymorphism', label: 'Germline Polymorphism' },
+              { value: 'Unknown', label: 'Unknown' },
+              { value: 'N/A', label: 'N/A' },
             ]
           },
           width: '6%',
