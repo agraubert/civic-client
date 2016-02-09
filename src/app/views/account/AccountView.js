@@ -1,20 +1,24 @@
 (function() {
   'use strict';
-  angular.module('civic.activity')
-    .config(ActivityView);
+  angular.module('civic.account')
+    .config(AccountView);
 
   // @ngInject
-  function ActivityView($stateProvider) {
+  function AccountView($stateProvider) {
     $stateProvider
       .state('account', {
         abstract: true,
         url: '/account',
-        templateUrl: 'app/views/account/account.tpl.html'
+        controller: 'AccountViewController',
+        templateUrl: 'app/views/account/account.tpl.html',
+        data: {
+          titleExp: '"My Account"',
+          navMode: 'sub'
+        }
       })
       .state('account.main', {
         url: '/main',
-        controller: 'AccountController',
-        templateUrl: 'app/views/account/mentions.tpl.html',
+        templateUrl: 'app/views/account/main.tpl.html',
         data: {
           titleExp: '"My Account"',
           navMode: 'sub'
@@ -29,7 +33,6 @@
       })
       .state('account.mentions', {
         url: '/mentions',
-        controller: 'AccountController',
         templateUrl: 'app/views/account/mentions.tpl.html',
         data: {
           titleExp: '"My Mentions"',
