@@ -101,7 +101,7 @@ gulp.task('html', ['styles', 'scripts', 'partials', 'cdnize'], function () {
 
     // pluck javascript block, store everything else
     .pipe(jsFilter)
-    .pipe($.sourcemaps.init()) // initialize sourcemap generation
+    .pipe($.sourcemaps.init({identityMap: true, debug:true})) // initialize sourcemap generation
     .pipe($.ngAnnotate()) // add angular dependency injection to protect from minification
     .pipe($.uglify({ // minify js
         preserveComments: $.uglifySaveLicense,
@@ -113,7 +113,11 @@ gulp.task('html', ['styles', 'scripts', 'partials', 'cdnize'], function () {
         }
       }
     ))
-    .pipe($.sourcemaps.write('.')) // write sourcemaps
+    /**/
+    .pipe($.sourcemaps.write('.'))
+    /*/
+    .pipe($.sourcemaps.write('.', {includeContent: false})) // write sourcemaps
+    /**/
     .pipe(jsFilter.restore)
     // restore non-js blocks to stream
 
