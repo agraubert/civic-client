@@ -351,7 +351,8 @@
                   required: true,
                   options: [
                     {value: 'is_equal_to', name: 'is'},
-                    {value: 'is_not_equal_to', name: 'is not'}
+                    {value: 'is_not_equal_to', name: 'is not'},
+                    {value: 'is_undefined', name: 'is undefined'}
                   ]
                 }
               },
@@ -359,6 +360,7 @@
                 key: 'parameters[0]',
                 type: 'queryBuilderSelect',
                 className: 'inline-field',
+                hideExpression: 'model.name == "is_undefined"',
                 data: {
                   defaultValue: 'Sensitivity'
                 },
@@ -470,7 +472,8 @@
                   required: true,
                   options: [
                     {value: 'is_equal_to', name: 'is'},
-                    {value: 'is_not_equal_to', name: 'is not'}
+                    {value: 'is_not_equal_to', name: 'is not'},
+                    {value: 'is_undefined', name: 'is undefined'}
                   ]
                 }
               },
@@ -478,6 +481,7 @@
                 key: 'parameters[0]',
                 type: 'queryBuilderSelect',
                 className: 'inline-field',
+                hideExpression: 'model.name == "is_undefined"',
                 data: {
                   defaultValue: 'Supports'
                 },
@@ -798,7 +802,8 @@
                   required: true,
                   options: [
                     {value: 'is_equal_to', name: 'is'},
-                    {value: 'is_not_equal_to', name: 'is not'}
+                    {value: 'is_not_equal_to', name: 'is not'},
+                    {value: 'is_undefined', name: 'is undefined'}
                   ]
                 }
               },
@@ -806,6 +811,7 @@
                 key: 'parameters[0]',
                 type: 'queryBuilderSelect',
                 className: 'inline-field',
+                hideExpression: 'model.name == "is_undefined"',
                 data: {
                   defaultValue: 'Somatic Mutation'
                 },
