@@ -14,176 +14,195 @@
       return response.$promise;
     };
 
-    return $resource('/api/genes/:geneId',
-      {
-        geneId: '@geneId'
+    return $resource('/api/genes/:geneId', {
+      geneId: '@geneId'
+    }, {
+      // Base Gene Resources
+      query: {
+        method: 'GET',
+        isArray: false,
+        cache: cache
       },
-      {
-        // Base Gene Resources
-        query: {
-          method: 'GET',
-          isArray: false,
-          cache: cache
+      get: { // get a single gene
+        method: 'GET',
+        isArray: false,
+        cache: cache
+      },
+      getName: { // get a single gene's name and entrez_id
+        url: '/api/genes/:geneId',
+        params: {
+          detailed: 'false'
         },
-        get: { // get a single gene
-          method: 'GET',
-          isArray: false,
-          cache: cache
-        },
-        getName: { // get a single gene's name and entrez_id
-          url: '/api/genes/:geneId',
-          params: { detailed: 'false' },
-          method: 'GET',
-          isArray: false,
-          cache: cache
-        },
-        update: {
-          method: 'PATCH',
-          interceptor: {
-            response: cacheInterceptor
-          }
-        },
-        delete: {
-          method: 'DELETE',
-          interceptor: {
-            response: cacheInterceptor
-          }
-        },
-        apply: {
-          method: 'PATCH',
-          cache: false
-        },
-        verify: {
-          method: 'GET',
-          url: '/api/genes/existence/:geneId',
-          isArray: false,
-          cache: cache
-        },
-        search: {
-
-        },
-        beginsWith: {
-          method: 'GET',
-          url: '/api/genes?name=:name&detailed=false',
-          isArray: true,
-          cache: cache
-        },
-
-        // Gene Additional Info
-        getMyGeneInfo: {
-          url: '/api/genes/:geneId/mygene_info_proxy',
-          params: {
-            geneId: '@geneId'
-          },
-          cache: cache,
-          transformResponse: function(data) {
-            if(typeof data === 'string') {
-              data = JSON.parse(data);
-            }
-            var srcMap = {
-              kegg: 'http://www.genome.jp/kegg-bin/show_pathway?',
-              reactome: 'http://www.reactome.org/cgi-bin/control_panel_st_id?ST_ID=',
-              pharmgkb: 'https://www.pharmgkb.org/pathway/',
-              humancyc: 'http://humancyc.org/HUMAN/NEW-IMAGE?type=PATHWAY&object=',
-              smpdb: 'http://www.smpdb.ca/view/',
-              pid: 'http://pid.nci.nih.gov/search/pathway_landing.shtml?what=graphic&jpg=on&pathway_id=',
-              wikipathways: 'http://wikipathways.org/index.php/Pathway:',
-              netpath: null,
-              biocarta: null,
-              inoh: null,
-              signalink: null,
-              ehmn: null
-            };
-            var pathways = data.pathway || [];
-            var pathwaysFinal = [];
-            var link;
-            for(var src in pathways){
-              if(!angular.isArray(pathways[src])){
-                pathways[src] = [pathways[src]];
-              }
-              for(var p in pathways[src]){
-                link = srcMap[src]+pathways[src][p].id;
-                if(srcMap[src] === null){
-                  link = null;
-                }
-                pathwaysFinal.push({
-                  name: pathways[src][p].name,
-                  link: link,
-                  src: src
-                });
-              }
-            }
-            data.pathway = pathwaysFinal;
-            if(!_.isArray(data.alias) && data.alias){
-              data.alias = [data.alias];
-            }
-            if(!_.isArray(data.interpro) && data.interpro){
-              data.interpro = [data.interpro];
-            }
-            return data;
-          }
-        },
-
-        // Gene Collections
-        queryVariants: {
-          method: 'GET',
-          url: '/api/genes/:geneId/variants',
-          isArray: false,
-          cache: cache
-        },
-        queryVariantGroups: {
-          method: 'GET',
-          url: '/api/genes/:geneId/variant_groups',
-          isArray: false,
-          cache: cache
-        },
-
-        // Gene Comments Resources
-        queryComments: {
-          method: 'GET',
-          url: '/api/genes/:geneId/comments',
-          isArray: true,
-          cache: cache
-        },
-        getComment: {
-          method: 'GET',
-          url: '/api/genes/:geneId/comments/:commentId',
-          params: {
-            geneId: '@geneId',
-            commentId: '@commentId'
-          },
-          isArray: false,
-          cache: cache
-        },
-
-        submitComment: {
-          method: 'POST',
-          url: '/api/genes/:geneId/comments',
-          params: {
-            geneId: '@geneId'
-          },
-          cache: false
-        },
-        updateComment: {
-          method: 'PATCH',
-          url: '/api/genes/:geneId/comments/:commentId',
-          params: {
-            geneId: '@geneId',
-            commentId: '@commentId'
-          },
-          cache: false
-        },
-        deleteComment: {
-          method: 'DELETE',
-          url: '/api/genes/:geneId/comments/:commentId',
-          params: {
-            geneId: '@geneId',
-            commentId: '@commentId'
-          },
-          cache: false
+        method: 'GET',
+        isArray: false,
+        cache: cache
+      },
+      update: {
+        method: 'PATCH',
+        interceptor: {
+          response: cacheInterceptor
         }
+      },
+      delete: {
+        method: 'DELETE',
+        interceptor: {
+          response: cacheInterceptor
+        }
+      },
+      apply: {
+        method: 'PATCH',
+        cache: false
+      },
+      verify: {
+        method: 'GET',
+        url: '/api/genes/existence/:geneId',
+        isArray: false,
+        cache: cache
+      },
+      search: {
+
+      },
+      beginsWith: {
+        method: 'GET',
+        url: '/api/genes?name=:name&detailed=false',
+        isArray: true,
+        cache: cache
+      },
+
+      // Gene Additional Info
+      getMyGeneInfo: {
+        url: '/api/genes/:geneId/mygene_info_proxy',
+        params: {
+          geneId: '@geneId'
+        },
+        cache: cache,
+        transformResponse: function(data) {
+          if (typeof data === 'string') {
+            data = JSON.parse(data);
+          }
+          var srcMap = {
+            kegg: 'http://www.genome.jp/kegg-bin/show_pathway?',
+            reactome: 'http://www.reactome.org/cgi-bin/control_panel_st_id?ST_ID=',
+            pharmgkb: 'https://www.pharmgkb.org/pathway/',
+            humancyc: 'http://humancyc.org/HUMAN/NEW-IMAGE?type=PATHWAY&object=',
+            smpdb: 'http://www.smpdb.ca/view/',
+            pid: 'http://pid.nci.nih.gov/search/pathway_landing.shtml?what=graphic&jpg=on&pathway_id=',
+            wikipathways: 'http://wikipathways.org/index.php/Pathway:',
+            netpath: null,
+            biocarta: null,
+            inoh: null,
+            signalink: null,
+            ehmn: null
+          };
+          var pathways = data.pathway || [];
+          var pathwaysFinal = [];
+          var link;
+          for (var src in pathways) {
+            if (!angular.isArray(pathways[src])) {
+              pathways[src] = [pathways[src]];
+            }
+            for (var p in pathways[src]) {
+              link = srcMap[src] + pathways[src][p].id;
+              if (srcMap[src] === null) {
+                link = null;
+              }
+              pathwaysFinal.push({
+                name: pathways[src][p].name,
+                link: link,
+                src: src
+              });
+            }
+          }
+          data.pathway = pathwaysFinal;
+          if (!_.isArray(data.alias) && data.alias) {
+            data.alias = [data.alias];
+          }
+          if (!_.isArray(data.interpro) && data.interpro) {
+            data.interpro = [data.interpro];
+          }
+          return data;
+        }
+      },
+
+      // Gene Collections
+      queryVariants: {
+        method: 'GET',
+        url: '/api/genes/:geneId/variants',
+        isArray: false,
+        cache: cache
+      },
+      queryVariantGroups: {
+        method: 'GET',
+        url: '/api/genes/:geneId/variant_groups',
+        isArray: false,
+        cache: cache
+      },
+      queryFlags: {
+        method: 'GET',
+        url: '/api/genes/:geneId/flags',
+        isArray: false,
+        cache: cache
+      },
+      submitFlag: {
+        method: 'POST',
+        url: '/api/genes/:geneId/flags',
+        cache: false
+      },
+      resolveFlag: {
+        method: 'PATCH',
+        url: '/api/genes/:geneId/flags/:flagId',
+        params: {
+          geneId: '@geneId',
+          flagId: '@flagId'
+        },
+        cache: false
+      },
+
+      // Gene Comments Resources
+      queryComments: {
+        method: 'GET',
+        url: '/api/genes/:geneId/comments',
+        isArray: true,
+        cache: cache
+      },
+      getComment: {
+        method: 'GET',
+        url: '/api/genes/:geneId/comments/:commentId',
+        params: {
+          geneId: '@geneId',
+          commentId: '@commentId'
+        },
+        isArray: false,
+        cache: cache
+      },
+
+      submitComment: {
+        method: 'POST',
+        url: '/api/genes/:geneId/comments',
+        params: {
+          geneId: '@geneId'
+        },
+        cache: false
+      },
+      updateComment: {
+        method: 'PATCH',
+        url: '/api/genes/:geneId/comments/:commentId',
+        params: {
+          geneId: '@geneId',
+          commentId: '@commentId'
+        },
+        cache: false
+      },
+      deleteComment: {
+        method: 'DELETE',
+        url: '/api/genes/:geneId/comments/:commentId',
+        params: {
+          geneId: '@geneId',
+          commentId: '@commentId'
+        },
+        cache: false
       }
-    );
+    });
   }
 
   // @ngInject
@@ -202,6 +221,7 @@
     var variantGroups = [];
     var comments = [];
     var variantStatuses = [];
+    var flags = [];
 
     return {
       initBase: initBase,
@@ -213,7 +233,8 @@
         variants: variants,
         variantGroups: variantGroups,
         variantStatuses: variantStatuses,
-        comments: comments
+        comments: comments,
+        flags: flags
       },
 
       // Gene Base
@@ -233,6 +254,9 @@
       // Gene Collections
       queryVariants: queryVariants,
       queryVariantGroups: queryVariantGroups,
+      queryFlags: queryFlags,
+      submitFlag: submitFlag,
+      resolveFlag: resolveFlag,
 
       // Gene Comments
       queryComments: queryComments,
@@ -248,7 +272,9 @@
     function mapVariantStatuses(variants, statuses) {
       return _.map(variants, function(variant) {
         variant.statuses = _.chain(statuses)
-          .find({id:variant.id})
+          .find({
+            id: variant.id
+          })
           .pick(['has_pending_fields', 'has_pending_evidence'])
           .value();
         return variant;
@@ -260,7 +286,8 @@
         get(geneId),
         getMyGeneInfo(geneId),
         queryVariants(geneId),
-        queryVariantGroups(geneId)
+        queryVariantGroups(geneId),
+        queryFlags(geneId)
       ]);
     }
 
@@ -269,6 +296,7 @@
         queryComments(geneId)
       ]);
     }
+
     // Gene Base
     function query() {
       return GenesResource.query().$promise
@@ -277,19 +305,26 @@
           return response.$promise;
         });
     }
+
     function get(geneId) {
-      return GenesResource.get({geneId: geneId}).$promise
+      return GenesResource.get({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           angular.copy(response, item);
           return response.$promise;
         });
     }
+
     function getName(geneId) {
-      return GenesResource.getName({geneId: geneId}).$promise
+      return GenesResource.getName({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           return response.$promise;
         });
     }
+
     function update(reqObj) {
       return GenesResource.update(reqObj).$promise
         .then(function(response) {
@@ -297,13 +332,17 @@
           return response.$promise;
         });
     }
+
     function deleteItem(geneId) {
-      return GenesResource.delete({geneId: geneId}).$promise
+      return GenesResource.delete({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           item = null;
           return response.$promise;
         });
     }
+
     function apply(reqObj) {
       return GenesResource.apply(reqObj).$promise.then(
         function(response) { // success
@@ -315,15 +354,20 @@
           return $q.reject(error);
         });
     }
+
     function verify(geneId) {
-      return GenesResource.verify({geneId: geneId}).$promise
+      return GenesResource.verify({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           return response.$promise;
         });
     }
 
     function beginsWith(name) {
-      return GenesResource.beginsWith({name: name}).$promise
+      return GenesResource.beginsWith({
+        name: name
+      }).$promise
         .then(function(response) {
           return response.$promise;
         });
@@ -331,7 +375,9 @@
 
     // Gene Additional Data
     function getMyGeneInfo(geneId) {
-      return GenesResource.getMyGeneInfo({geneId: geneId}).$promise
+      return GenesResource.getMyGeneInfo({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           angular.copy(response, myGeneInfo);
           return response.$promise;
@@ -340,34 +386,85 @@
 
     // Gene Collections
     function queryVariants(geneId) {
-      return GenesResource.queryVariants({geneId: geneId, count: 999}).$promise
+      return GenesResource.queryVariants({
+        geneId: geneId,
+        count: 999
+      }).$promise
         .then(function(response) {
           angular.copy(response.records, variants);
           return response.$promise;
         });
     }
+
     function queryVariantGroups(geneId) {
-      return GenesResource.queryVariantGroups({geneId: geneId}).$promise
+      return GenesResource.queryVariantGroups({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           angular.copy(response.records, variantGroups);
           return response.$promise;
         });
     }
 
+    function queryFlags(geneId) {
+      return GenesResource.queryFlags({geneId: geneId}).$promise
+        .then(function(response) {
+          angular.copy(response.records, flags);
+          return response.$promise;
+        });
+    }
+
+    function submitFlag(reqObj) {
+      reqObj.geneId = reqObj.entityId;
+      return GenesResource.submitFlag(reqObj).$promise
+        .then(function(response) {
+          cache.remove('/api/genes/' + reqObj.geneId + '/flags');
+          queryFlags(reqObj.geneId);
+
+          // flush subscriptions and refresh
+          cache.remove('/api/subscriptions?count=999');
+          Subscriptions.query();
+
+          return response.$promise;
+        });
+    }
+    function resolveFlag(reqObj) {
+      reqObj.geneId = reqObj.entityId;
+      reqObj.state = 'resolved';
+      return GenesResource.resolveFlag(reqObj).$promise
+        .then(function(response) {
+          cache.remove('/api/genes/' + reqObj.geneId + '/flags');
+          queryFlags(reqObj.geneId);
+
+          // flush subscriptions and refresh
+          cache.remove('/api/subscriptions?count=999');
+          Subscriptions.query();
+
+          return response.$promise;
+        });
+    }
+
     // Gene Comments
     function queryComments(geneId) {
-      return GenesResource.queryComments({geneId: geneId}).$promise
+      return GenesResource.queryComments({
+        geneId: geneId
+      }).$promise
         .then(function(response) {
           angular.copy(response, comments);
           return response.$promise;
         });
     }
+
     function getComment(geneId, commentId) {
-      return GenesResource.getComment({geneId: geneId, commentId: commentId}).$promise
+      return GenesResource.getComment({
+        geneId: geneId,
+        commentId: commentId
+      }).$promise
         .then(function(response) {
           return response.$promise;
         });
     }
+
     function submitComment(reqObj) {
       return GenesResource.submitComment(reqObj).$promise
         .then(function(response) {
@@ -381,6 +478,7 @@
           return response.$promise;
         });
     }
+
     function updateComment(reqObj) {
       return GenesResource.updateComment(reqObj).$promise
         .then(function(response) {
@@ -389,8 +487,12 @@
           return response.$promise;
         });
     }
+
     function deleteComment(commentId) {
-      return GenesResource.deleteComment({geneId: item.id, commentId: commentId}).$promise
+      return GenesResource.deleteComment({
+        geneId: item.id,
+        commentId: commentId
+      }).$promise
         .then(function(response) {
           cache.remove('/api/genes/' + item.id + '/comments');
           queryComments(item.id);

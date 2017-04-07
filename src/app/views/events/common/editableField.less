@@ -12,72 +12,70 @@
 @bgActiveColor: rgba(255,255,255, 0.8);
 
 .editableField {
-  .clearfix();
-  border-radius: @border-radius-base;
-  display: inline-block;
-  padding: 3px 5px;
-  margin: -3px -5px;
-  border: 1px solid @borderColor;
-  position: relative;
-
-  &::after  {
-    position: absolute;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    font-size: .5em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: @borderColor;
-    content: "\270f";
+  .btn {
+    margin: 0;
+    margin-top: -5px;
   }
 
-  &.pending::after {
-    content:"\e101";
+  .btn-edit-entity {
+    border-color: #4b2065;
+    background-color: #e7d4f3;
+    border-width: 2px;
+    color: #4b2065;
   }
 
-  &.hover {
-    cursor: pointer;
-    background-color: @bgHoverColor;
-    border-color: @borderHoverColor;
-    &::after {
-      color: @borderHoverColor;
+  .btn-flag {
+    border-color: #942830;
+    border-width: 2px;
+    color: #942830;
+    background-color: #f6cdd0;
+    // border-width: 2px;
+    // color: #942830;
+    &.flagged {
+      background-color: #942830;
+      color: white;
     }
   }
 
-  &.active {
-    background-color: @bgActiveColor;
-    border-color: @borderActiveColor;
-    &::after {
-      color: @borderActiveColor;
+  .popover {
+    min-width: 450px;
+    .panel-buttons {
+      .btn {
+        float: right;
+      }
     }
-  }
+    .submit-flag-form {
+      .flag-comment {
+        font-size: small;
+        color: #333;
+    }
 
-}
-
-
-// lg/small sizes necessary for different sized fields, e.g. entity titles vs.
-// entity fields. These styles specify the size and location of the edit icon
-.edit-icon-lg {
-  .editableField {
-    margin-right: -25px;
-    padding-right: 25px;
-  }
-  .editableField::after, .editableField::after {
-    top: 7px;
-    right: 7px;
-    font-size: .5em;
-  }
-}
-
-.edit-icon-sm {
-  .editableField {
-    margin-right: -20px;
-    padding-right: 20px;
-  }
-  .editableField::after {
-    top: 5px;
-    right: 5px;
-    font-size: .7em;
+    }
+    .resolved-flags{
+     margin-top: @contentPadding/2;
+      margin-left: -@contentPadding;
+      margin-right: -@contentPadding;
+      padding-left: @contentPadding;
+      padding-right: @contentPadding;
+      &.closed {
+        margin-bottom: -10px;
+      }
+      .resolved-flags-title {
+        background-color: #EFEFEF;
+        font-size: 1em;
+        line-height: 2em;
+        font-weight: bold;
+        border-bottom-left-radius: @border-radius-small;
+      }
+      .toggle-btn {
+        background-color: #EFEFEF;
+        line-height: 2em;
+        text-align: right;
+        border-bottom-right-radius: @border-radius-small;
+      }
+      .resolved-flags-list {
+        padding-top: @contentPadding/2;
+      }
+    }
   }
 }

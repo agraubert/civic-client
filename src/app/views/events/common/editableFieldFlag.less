@@ -1,0 +1,106 @@
+@import 'bower_components/bootstrap/less/mixins.less';
+@import 'bower_components/bootstrap/less/variables.less';
+@import 'src/app/styles/_civic-variables.less';
+@import 'src/app/styles/_mixins.less';
+
+@panelPadding: @contentPadding/2;
+@openFlagBgColor: lighten(#942830, 60%);
+@openFlagBorderColor: lighten(#942830, 40%);
+@resolvedFlagBgColor: lighten(@civicGreen, 60%);
+@resolvedFlagBorderColor: @civicGreen;
+
+.editableFieldFlag {
+  border: 1px solid #CCC;
+  border-radius: @border-radius-base;
+  border-width: 1px;
+  border-style: solid;
+  padding: @panelPadding;
+  margin-bottom: @panelPadding;
+  .resolve-comment {
+    padding-top: @panelPadding;
+  }
+  &.state-open {
+    background-color: @openFlagBgColor;
+    border-color: @openFlagBorderColor;
+    .actions-list {
+      border-bottom-color: @openFlagBorderColor;
+    }
+    .flag-comment {
+      border-color: @openFlagBorderColor;
+     .flag-comment-notice {
+       color: @openFlagBorderColor;
+     }
+    }
+  }
+
+  &.state-resolved {
+    background-color: @resolvedFlagBgColor;
+    border-color: @resolvedFlagBorderColor;
+    .actions-list {
+      border-bottom-color: @resolvedFlagBorderColor;
+    }
+    .flag-comment, .resolve-comment {
+      border-color: @resolvedFlagBorderColor;
+      .flag-comment-notice {
+        color: @resolvedFlagBorderColor;
+      }
+    }
+  }
+
+  .actions-list {
+    margin: -@panelPadding -@panelPadding @panelPadding -@panelPadding;
+    border-top-left-radius: @border-radius-base;
+    border-top-right-radius: @border-radius-base;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        background-color: @pageBackground;
+        display: inline-block;
+        border-radius: @border-radius-small;
+        border: 1px solid #CCC;
+        padding: 5px 5px 3px 5px;
+        margin: 5px;
+        .action-label {
+          color: #666;
+          font-size: small;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .flag-comment {
+    margin-left: -@panelPadding;
+    margin-right: -@panelPadding;
+    padding-left: @panelPadding;
+    padding-right: @panelPadding;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    font-size: small;
+    .flag-comment-notice {
+      font-size: small;
+      font-style: oblique;
+    }
+  }
+  .resolve-comment {
+    font-size: small;
+    .flag-comment-notice {
+      font-size: small;
+      font-style: oblique;
+    }
+  }
+  .resolve-flag-form {
+    border: 1px solid @resolvedFlagBorderColor;
+    background-color: @resolvedFlagBgColor;
+    border-radius: @border-radius-base;
+    padding: @panelPadding;
+    margin-top: @panelPadding;
+    textarea.resolve-comment {
+      font-size: small;
+      color: #333;
+    }
+  }
+}
